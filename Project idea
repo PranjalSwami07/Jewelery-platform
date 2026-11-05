@@ -1,0 +1,48 @@
+
+## Phase 1: Environment & Directory Scaffolding
+- [ ] Initialize Git repository in root and create `main` branch.
+- [ ] Create `frontend/` directory (Vite + React + TypeScript + Tailwind CSS).
+- [ ] Create `backend/` directory (Express + TypeScript + Prisma + Firebase Admin + Multer + Cloudinary).
+- [ ] Create `.gitignore` ignoring `node_modules`, `.env`, and build outputs.
+- [ ] Execute Git commit: `Chore: Initialize monorepo directory layout`.
+
+## Phase 2: Database Schema & Authentication Security
+- [ ] Initialize Prisma in `backend/` and link to Supabase PostgreSQL URI.
+- [ ] Write `schema.prisma` with `User` (Role: USER | ADMIN), `Product`, `Order`, and `OrderItem` models.
+- [ ] Configure Firebase Admin SDK initialization in `backend/src/config/firebaseAdmin.ts`.
+- [ ] Configure Cloudinary SDK in `backend/src/config/cloudinary.ts`.
+- [ ] Create `uploadMiddleware.ts` using `multer.memoryStorage()` for file handling.
+- [ ] Implement `verifyAuthToken` and `requireAdmin` middleware in `backend/src/middleware/authMiddleware.ts`.
+- [ ] Enforce data isolation: Users can only query orders matching `req.user.uid`. Admin panel `/api/admin/*` blocked for non-admins.
+- [ ] Execute Git commit: `Feat: Add Prisma schema, Supabase connection, Cloudinary config, and Firebase authorization middleware`.
+
+## Phase 3: Backend API & Media Upload Pipeline
+- [ ] Create public `/api/products` routes (GET all, GET by ID). 
+- [ ] Create admin route `/api/admin/products` accepting multipart image uploads, streaming files to Cloudinary, and saving returned `secure_url` strings to Prisma.
+- [ ] Create protected `/api/orders` routes (POST checkout, GET user orders).
+- [ ] Create `/api/chat` route integrated with Gemini API key and wrapped in `express-rate-limit` (max 10 requests per 15 min).
+- [ ] Create `/api/contact` route integrated with Nodemailer SMTP email service.
+- [ ] Execute Git commit: `Feat: Complete backend endpoints for Cloudinary image uploads, products, orders, rate-limited AI chat, and email delivery`.
+
+## Phase 4: Fixed 3D Scroll Background & Luxury Hero Section
+- [ ] Implement `BackgroundCanvas.tsx` in `frontend/src/components/3d/` with fixed positioning (`z-index: -1`).
+- [ ] Connect scroll progress hook (`useScrollProgress.ts`) to drive camera rotation and light positions on window scroll.
+- [ ] Build Hero section with gold-accented luxury typography and floating scroll indicator component (`ScrollIndicator.tsx`).
+- [ ] Execute Git commit: `Feat: Implement fixed 3D scroll-driven background canvas and Hero section`.
+
+## Phase 5: Mouse-Interactive Luxury Components
+- [ ] Build **Component 1**: `DiamondMagnifier.tsx` (Cursor-following glassmorphism macro lens).
+- [ ] Build **Component 2**: `RingRotation360.tsx` (360-degree rotation tied to cursor horizontal motion).
+- [ ] Build **Component 3**: `ParallaxBanner.tsx` (Multi-layered gold particles and jewelry shifting with cursor).
+- [ ] Build **Component 4**: `CaratConfigurator.tsx` (Live gold/platinum surface reflection customizer on hover).
+- [ ] Build floating AI Concierge Drawer connected to `/api/chat`.
+- [ ] Build Contact Page connected to `/api/contact`.
+- [ ] Execute Git commit: `Feat: Add 4 mouse-interactive components, AI concierge UI, and Contact page`.
+
+## Phase 6: Production Deployment
+- [ ] Deploy PostgreSQL database to **Supabase**.
+- [ ] Register Cloudinary cloud name & API credentials.
+- [ ] Deploy `/backend` to **Koyeb** / **Railway** / **Fly.io** with environment variables set.
+- [ ] Deploy `/frontend` to **Netlify** / **Cloudflare Pages** pointing build output to `dist`.
+- [ ] Verify CORS, production endpoints, and security rules.
+- [ ] Execute final Git commit: `Chore: Finalize production setup and deployment configuration`.

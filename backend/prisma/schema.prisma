@@ -1,0 +1,111 @@
+// Maison d'Élégance Haute Joaillerie Prisma Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  VAULT_PROCESSING
+  COMPLETED
+  CANCELLED
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  APPOINTMENT_SCHEDULED
+  ARCHIVED
+}
+
+model User {
+  id          String   @id @default(uuid())
+  firebaseUid String   @unique
+  email       String   @unique
+  name        String?
+  role        Role     @default(USER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  orders      Order[]
+
+  @@index([firebaseUid])
+  @@index([email])
+}
+
+model Product {
+  id          String      @id @default(uuid())
+  name        String
+  slug        String      @unique
+  description String
+  price       Float
+  caratWeight String
+  metal       String
+  clarity     String
+  colorGrade  String
+  cutGrade    String
+  category    String
+  images      String[]
+  inStock     Boolean     @default(true)
+  featured    Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+
+  @@index([category])
+  @@index([slug])
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalAmount     Float
+  status          OrderStatus @default(PENDING)
+  salonLocation   String?     // e.g. "Paris Place Vendôme", "Geneva", "London"
+  appointmentDate DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  items           OrderItem[]
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id            String   @id @default(uuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id])
+  price         Float
+  quantity      Int      @default(1)
+  selectedMetal String
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Inquiry {
+  id            String        @id @default(uuid())
+  name          String
+  email         String
+  phone         String?
+  salonLocation String?       // e.g. "Paris Place Vendôme", "Geneva", "London", "Bespoke Atelier"
+  pieceInterest String?
+  message       String
+  status        InquiryStatus @default(NEW)
+  createdAt     DateTime      @default(now())
+
+  @@index([email])
+  @@index([status])
+}
