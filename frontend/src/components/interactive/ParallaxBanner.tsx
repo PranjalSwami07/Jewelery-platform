@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Sparkles, ArrowRight } from "lucide-react";
+import { AppointmentModal } from "@/components/common/AppointmentModal";
 
 export const ParallaxBanner: React.FC = () => {
   const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -69,21 +71,29 @@ export const ParallaxBanner: React.FC = () => {
           Bespoke Creations Crafted by Master Artisans
         </h2>
         <p className="mt-4 text-neutral-300 text-sm md:text-base font-sans leading-relaxed">
-          From sourcing untreated Kashmir sapphires and Golconda diamonds to lost-wax casting in our Place Vendôme atelier, collaborate directly with our Creative Director.
+          From sourcing untreated Kashmir sapphires and Golconda diamonds to lost-wax casting in our Mumbai & Jaipur ateliers, collaborate directly with our Creative Director.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-4">
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gold-500 hover:bg-gold-400 text-black font-medium text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(197,160,89,0.4)]"
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gold-500 hover:bg-gold-400 text-black font-medium text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(197,160,89,0.4)] cursor-pointer hover:scale-105 active:scale-95"
           >
             <span>Book Private Salon Appointment</span>
             <ArrowRight className="w-4 h-4" />
-          </a>
-          <span className="text-xs text-gold-400/80 font-mono tracking-wider">
-            Geneva • Paris • London • New York
+          </button>
+          <span className="text-xs text-gold-400/90 font-mono tracking-wider">
+            Mumbai • New Delhi • Jaipur • Bengaluru
           </span>
         </div>
       </div>
+
+      {/* Luxury Private Salon Appointment Modal */}
+      <AppointmentModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        preselectedCity="Mumbai"
+      />
     </div>
   );
 };

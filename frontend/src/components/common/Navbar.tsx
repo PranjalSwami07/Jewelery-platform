@@ -46,7 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConcierge }) => {
               Maison d'Élégance
             </span>
             <span className="text-[9px] tracking-[0.35em] uppercase text-gold-400/80 font-sans -mt-1">
-              Haute Joaillerie • Paris
+              Haute Joaillerie • Mumbai & New Delhi
             </span>
           </div>
         </a>

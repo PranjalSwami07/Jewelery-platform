@@ -175,7 +175,7 @@ export const ProductQuickViewModal: React.FC<ProductQuickViewModalProps> = ({
             <div className="space-y-2 pt-2 border-t border-neutral-900 text-xs text-neutral-400">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-gold-400 shrink-0" />
-                <span>Private Salon Viewing in Paris, Geneva & London</span>
+                <span>Private Salon Viewing in Mumbai, New Delhi & Jaipur</span>
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-gold-400 shrink-0" />

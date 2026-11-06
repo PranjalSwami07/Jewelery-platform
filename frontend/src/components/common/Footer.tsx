@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
             </div>
             <div>
               <h4 className="font-serif text-gold-100 text-base">Master Goldsmith Heritage</h4>
-              <p className="text-xs text-neutral-400">Handcrafted in Paris & Geneva since 1928</p>
+              <p className="text-xs text-neutral-400">Handcrafted in Mumbai & Jaipur ateliers since 1928</p>
             </div>
           </div>
 
@@ -62,20 +62,24 @@ export const Footer: React.FC = () => {
           {/* Salons */}
           <div>
             <h5 className="text-xs uppercase tracking-[0.2em] text-gold-300 mb-4 font-sans">
-              Flagship Salons
+              Flagship Indian Salons
             </h5>
             <ul className="space-y-2.5 text-xs text-neutral-400">
               <li className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5" />
-                <span>26 Place Vendôme, 75001 Paris, France</span>
+                <span>The Taj Mahal Palace, Colaba, Mumbai 400001</span>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5" />
-                <span>Rue du Rhône 42, 1204 Geneva, Switzerland</span>
+                <span>The Leela Palace, Chanakyapuri, New Delhi 110023</span>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5" />
-                <span>15 New Bond St, Mayfair, London W1S 3SX</span>
+                <span>Rambagh Palace Heritage Atelier, Jaipur 302005</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <MapPin className="w-3.5 h-3.5 text-gold-400 shrink-0 mt-0.5" />
+                <span>The Collection, UB City, Bengaluru 560001</span>
               </li>
             </ul>
           </div>

@@ -44,7 +44,7 @@ export const Home: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold-500/30 bg-gold-950/40 backdrop-blur-md mb-8 animate-fadeIn">
             <Gem className="w-3.5 h-3.5 text-gold-400" />
             <span className="text-xs uppercase tracking-[0.3em] text-gold-300 font-sans">
-              Haute Joaillerie • Place Vendôme, Paris
+              Haute Joaillerie • Mumbai & Jaipur Ateliers
             </span>
           </div>
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { X, Send, Sparkles, Gem, Clock, ShieldCheck, User } from "lucide-react";
+import { API_BASE_URL } from "@/lib/api";
 
 interface AIChatDrawerProps {
   isOpen: boolean;
@@ -17,7 +18,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
     {
       role: "concierge",
       content:
-        "Bonjour. I am your Maison d'Élégance Private Concierge. Whether you seek guidance on GIA diamond grading, rare Colombian emerald acquisitions, or arranging a private salon viewing in Paris, how may I assist you today?",
+        "Namaste. I am your Maison d'Élégance Private Concierge. Whether you seek guidance on GIA diamond grading, rare Kashmir sapphire acquisitions, or arranging a private salon viewing in Mumbai, New Delhi, or Jaipur, how may I assist you today?",
       timestamp: "Just now",
     },
   ]);
@@ -27,7 +28,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
   const predefinedPrompts = [
     "What is the 4Cs profile of your Étoile Solitaire?",
     "How does bespoke private commission work?",
-    "Schedule a private salon appointment in Paris",
+    "Schedule a private salon appointment in Mumbai or Delhi",
   ];
 
   const handleSend = async (textToSend?: string) => {
@@ -45,7 +46,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
     setIsTyping(true);
 
     try {
-      const response = await fetch("http://localhost:5001/api/chat", {
+      const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text }),
@@ -77,8 +78,14 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
         reply = "The Étoile Solitaire features only Type IIa diamonds—the top 1-2% of all gem-quality diamonds in the world, certified Flawless to VVS1 with triple-excellent cut parameters by GIA.";
       } else if (text.toLowerCase().includes("bespoke") || text.toLowerCase().includes("commission")) {
         reply = "Our bespoke commission process begins with a one-on-one consultation with our Master Jeweler. We sketch custom gouache renderings, source unheated gemstones globally, and craft the final creation over 8 to 12 weeks.";
-      } else if (text.toLowerCase().includes("appointment") || text.toLowerCase().includes("paris")) {
-        reply = "I would be honored to reserve a private salon suite for you at 26 Place Vendôme, Paris. Our private client advisor will contact your concierge with champagne hospitality.";
+      } else if (
+        text.toLowerCase().includes("appointment") ||
+        text.toLowerCase().includes("mumbai") ||
+        text.toLowerCase().includes("delhi") ||
+        text.toLowerCase().includes("jaipur") ||
+        text.toLowerCase().includes("salon")
+      ) {
+        reply = "I would be honored to reserve a private salon suite for you at The Taj Mahal Palace, Mumbai or in New Delhi. Our private client advisor will contact your concierge with champagne hospitality.";
       } else {
         reply = `Thank you for your inquiry regarding "${text}". Our senior gemologist and private salon director will prepare a bespoke portfolio tailored to your exact specifications.`;
       }
