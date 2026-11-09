@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ZoomIn, ShieldCheck, Calendar, Sparkles, Check } from "lucide-react";
 import { JEWELRY_CATALOG } from "@/data/jewelryData";
 import { SmoothMagnifier } from "@/components/common/SmoothMagnifier";
+import { JewelryItem } from "@/types/jewelry";
 
 interface DiamondMagnifierProps {
-  onInquire?: (piece: any) => void;
+  onInquire?: (piece: JewelryItem) => void;
+  piece?: JewelryItem;
 }
 
-export const DiamondMagnifier: React.FC<DiamondMagnifierProps> = ({ onInquire }) => {
-  const [selectedPiece, setSelectedPiece] = useState(JEWELRY_CATALOG[0]); // Default to Graduated Rivière Necklace from Image 1!
+export const DiamondMagnifier: React.FC<DiamondMagnifierProps> = ({ onInquire, piece }) => {
+  const [selectedPiece, setSelectedPiece] = useState<JewelryItem>(piece || JEWELRY_CATALOG[0]);
   const [isReserved, setIsReserved] = useState(false);
+
+  useEffect(() => {
+    if (piece) {
+      setSelectedPiece(piece);
+      setIsReserved(false);
+    }
+  }, [piece]);
 
   const handleInquiry = () => {
     setIsReserved(true);
@@ -26,10 +35,10 @@ export const DiamondMagnifier: React.FC<DiamondMagnifierProps> = ({ onInquire })
             <ZoomIn className="w-3.5 h-3.5" /> High Precision Macro Loupe
           </span>
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif text-gold-100 mt-2">
-            Multi-Creation 58-Facet Magnifier
+            High Jewelry 58-Facet Macro Loupe
           </h3>
           <p className="text-neutral-400 text-xs sm:text-sm mt-1 max-w-xl">
-            Select any creation from our private reserve below to inspect stone girdle symmetry, diamond dispersion, and prong settings in ultra-smooth magnification.
+            Inspect stone girdle symmetry, diamond dispersion, and prong settings in ultra-smooth magnification.
           </p>
         </div>
 
@@ -37,44 +46,6 @@ export const DiamondMagnifier: React.FC<DiamondMagnifierProps> = ({ onInquire })
           <ShieldCheck className="w-4 h-4 text-gold-400" />
           <span>GIA Triple Excellent Certified</span>
         </div>
-      </div>
-
-      {/* Piece Selector Carousel / Thumbnails */}
-      <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-6 scrollbar-none">
-        {JEWELRY_CATALOG.slice(0, 5).map((item) => {
-          const isSelected = selectedPiece.id === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => {
-                setSelectedPiece(item);
-                setIsReserved(false);
-              }}
-              className={`flex items-center gap-3 p-2 pr-4 rounded-2xl border transition-all duration-300 shrink-0 text-left ${
-                isSelected
-                  ? "border-gold-400 bg-gold-950/50 shadow-[0_0_20px_rgba(197,160,89,0.3)] ring-1 ring-gold-400"
-                  : "border-neutral-800 bg-neutral-950/60 hover:border-neutral-700 opacity-70 hover:opacity-100"
-              }`}
-            >
-              <img
-                src={item.image}
-                alt={item.alt}
-                className="w-14 h-14 rounded-xl object-cover bg-neutral-900 border border-gold-500/20"
-              />
-              <div>
-                <div className="text-xs font-serif font-medium text-gold-100 line-clamp-1">
-                  {item.name}
-                </div>
-                <div className="text-[10px] text-gold-400/80 font-mono">
-                  {item.caratWeight}
-                </div>
-                <div className="text-xs text-gold-300 font-medium">
-                  ${item.price.toLocaleString()}
-                </div>
-              </div>
-            </button>
-          );
-        })}
       </div>
 
       {/* Main Interactive Loupe Display */}
