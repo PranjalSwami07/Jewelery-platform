@@ -35,17 +35,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConcierge }) => {
           : "bg-gradient-to-b from-black/80 via-black/40 to-transparent py-5"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between">
         {/* Brand Logo */}
-        <a href="#" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-full border border-gold-400/40 flex items-center justify-center bg-gold-950/40 group-hover:border-gold-300 transition-colors shadow-inner">
-            <Gem className="w-5 h-5 text-gold-400 group-hover:scale-110 transition-transform duration-300" />
+        <a href="#" className="flex items-center gap-2 sm:gap-3 group min-w-0">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-gold-400/40 flex items-center justify-center bg-gold-950/40 group-hover:border-gold-300 transition-colors shadow-inner shrink-0">
+            <Gem className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400 group-hover:scale-110 transition-transform duration-300" />
           </div>
-          <div className="flex flex-col text-left">
-            <span className="font-serif text-lg md:text-xl tracking-[0.22em] uppercase text-gold-100 font-medium">
+          <div className="flex flex-col text-left truncate">
+            <span className="font-serif text-base sm:text-lg md:text-xl tracking-[0.16em] sm:tracking-[0.22em] uppercase text-gold-100 font-medium truncate">
               Maison d'Élégance
             </span>
-            <span className="text-[9px] tracking-[0.35em] uppercase text-gold-400/80 font-sans -mt-1">
+            <span className="text-[8px] sm:text-[9px] tracking-[0.22em] sm:tracking-[0.35em] uppercase text-gold-400/80 font-sans -mt-0.5 sm:-mt-1 truncate max-w-[160px] sm:max-w-none">
               Haute Joaillerie • Mumbai & New Delhi
             </span>
           </div>
@@ -65,16 +65,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConcierge }) => {
         </nav>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 shrink-0">
           {/* Wishlist Link */}
           <a
             href="#boutique"
-            className="relative p-2 text-neutral-300 hover:text-rose-400 transition-colors"
+            className="relative p-1.5 sm:p-2 text-neutral-300 hover:text-rose-400 transition-colors"
             title="Saved Creations"
           >
             <Heart className="w-5 h-5" />
             {wishlist.length > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-rose-500/90 text-white text-[10px] font-bold flex items-center justify-center">
+              <span className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-4 h-4 rounded-full bg-rose-500/90 text-white text-[10px] font-bold flex items-center justify-center">
                 {wishlist.length}
               </span>
             )}
@@ -83,16 +83,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConcierge }) => {
           {/* AI Concierge */}
           <button
             onClick={onOpenConcierge}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold-500/40 bg-gold-500/15 hover:bg-gold-500/25 text-gold-200 text-xs font-medium tracking-wider transition-all hover:border-gold-300 hover:shadow-[0_0_15px_rgba(197,160,89,0.3)]"
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full border border-gold-500/40 bg-gold-500/15 hover:bg-gold-500/25 text-gold-200 text-xs font-medium tracking-wider transition-all hover:border-gold-300 hover:shadow-[0_0_15px_rgba(197,160,89,0.3)]"
           >
-            <Sparkles className="w-3.5 h-3.5 text-gold-400 animate-pulse" />
-            <span>AI Concierge</span>
+            <Sparkles className="w-3.5 h-3.5 text-gold-400 animate-pulse shrink-0" />
+            <span className="hidden xs:inline">AI Concierge</span>
+            <span className="xs:hidden">AI</span>
           </button>
 
           {/* Mobile Menu Burger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-neutral-300 hover:text-gold-300"
+            className="lg:hidden p-1.5 sm:p-2 text-neutral-300 hover:text-gold-300"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

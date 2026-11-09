@@ -3,6 +3,19 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+/* ── the curved row ──────────────────────────────────────────────
+ * Scroll Tilted Grid turned on its side, with the tilt drawn as a curve.
+ * One row of images streams from right to left around the inside of a
+ * cylinder. The centre faces you flat, the ends bend toward you so each
+ * end image curves along its length, and the ends fade into the page.
+ *
+ * Slices: 16 strips per tile create smooth curved geometry.
+ * Dynamic scroll engine: as the user scrolls down, tiles stream from
+ * right to left across the cylinder arc. Once all pieces have been
+ * presented and the sequence wraps, scrolling continues down to the
+ * next section of the website.
+ * ─────────────────────────────────────────────────────────────── */
+
 const SLICES = 16;
 const CAMERA = 1.6;
 
@@ -54,7 +67,7 @@ export type TiltedGridHeroProps = {
   tileHeight?: number;
   aspectRatio?: number;
   gap?: number;
-  axis?: number;
+  axis?: number; // Vertical center % of the curved cylinder band
   curve?: number;
   fade?: number;
   children?: React.ReactNode;
@@ -68,7 +81,7 @@ export function TiltedGridHero({
   tileHeight = 26,
   aspectRatio = 16 / 9,
   gap = 6,
-  axis = 70,
+  axis = 70, // Positioned in lower portion so letters sit cleanly above
   curve = 78,
   fade = 12,
   children,
@@ -99,6 +112,7 @@ export function TiltedGridHero({
     return () => ro.disconnect();
   }, [tileHeight, aspectRatio, gap, bend]);
 
+  // Preload images
   React.useEffect(() => {
     for (const { src } of images) new Image().src = src;
   }, [images]);
@@ -106,7 +120,10 @@ export function TiltedGridHero({
   const { columns, sweep, unit, limit, pitch } =
     layout ?? measure(1200, 600, tileHeight, aspectRatio, gap, bend);
 
-  const SCROLL_PER_IMAGE = 240;
+  // --- Scroll-Driven Stream Engine ---
+  // Calibrated for both desktop mousewheel and smartphone thumb swipes
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const SCROLL_PER_IMAGE = isMobile ? 120 : 240;
   const totalStreamScroll = Math.max(images.length, 1) * SCROLL_PER_IMAGE;
 
   const scrollAccumulator = React.useRef(0);
@@ -115,6 +132,7 @@ export function TiltedGridHero({
   const [renderOffset, setRenderOffset] = React.useState(0);
   const isCompletedRef = React.useRef(false);
 
+  // Wheel & Touch Scroll Listener
   React.useEffect(() => {
     const container = ref.current;
     if (!container || !pitch) return;
@@ -122,14 +140,18 @@ export function TiltedGridHero({
     const totalAngleSpan = images.length * pitch;
 
     const handleWheel = (e: WheelEvent) => {
+      // 1. If user has scrolled through all images and continues scrolling DOWN:
+      // Allow continuous native window scroll to the next section!
       if (scrollAccumulator.current >= totalStreamScroll && e.deltaY > 0) {
-        return;
+        return; // Do NOT preventDefault! Allow smooth scroll down to #boutique.
       }
 
+      // 2. If at beginning and scrolling UP, allow native window scroll UP
       if (scrollAccumulator.current <= 0 && e.deltaY < 0) {
         return;
       }
 
+      // 3. User is scrolling DOWN through the high-jewelry gallery
       if (e.deltaY > 0) {
         const remaining = totalStreamScroll - scrollAccumulator.current;
         if (e.deltaY >= remaining) {
@@ -146,6 +168,7 @@ export function TiltedGridHero({
         }
       }
 
+      // 4. User is scrolling UP through the gallery
       if (e.deltaY < 0) {
         if (scrollAccumulator.current > 0) {
           e.preventDefault();
@@ -161,23 +184,39 @@ export function TiltedGridHero({
       }
     };
 
+    // Smartphone Touch Gestures: supports both natural horizontal thumb swipes and vertical scrolls
     let touchStartY = 0;
+    let touchStartX = 0;
     const handleTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
+      if (e.touches.length > 0) {
+        touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+      }
     };
     const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 0) return;
       const touchY = e.touches[0].clientY;
+      const touchX = e.touches[0].clientX;
       const deltaY = touchStartY - touchY;
+      const deltaX = touchStartX - touchX;
       touchStartY = touchY;
+      touchStartX = touchX;
 
-      if (deltaY > 0 && scrollAccumulator.current >= totalStreamScroll) {
-        return;
+      // On mobile phones, horizontal thumb swipes and vertical scrolls both fluidly drive the 3D cylinder
+      const effectiveDelta =
+        Math.abs(deltaX) > Math.abs(deltaY) ? deltaX * 1.8 : deltaY * 1.5;
+
+      if (effectiveDelta > 0 && scrollAccumulator.current >= totalStreamScroll) {
+        return; // Native page scroll down to #boutique
       }
-      if (deltaY < 0 && scrollAccumulator.current <= 0) {
-        return;
+      if (effectiveDelta < 0 && scrollAccumulator.current <= 0) {
+        return; // Native page scroll up
       }
 
-      const next = Math.min(Math.max(scrollAccumulator.current + deltaY * 1.6, 0), totalStreamScroll);
+      const next = Math.min(
+        Math.max(scrollAccumulator.current + effectiveDelta, 0),
+        totalStreamScroll
+      );
       scrollAccumulator.current = next;
       const progress = next / totalStreamScroll;
       targetOffset.current = progress * totalAngleSpan;
@@ -197,6 +236,7 @@ export function TiltedGridHero({
     };
   }, [pitch, totalStreamScroll, images.length]);
 
+  // Buttery-smooth lerp animation loop (runs on requestAnimationFrame)
   React.useEffect(() => {
     let animId: number;
 
@@ -206,6 +246,7 @@ export function TiltedGridHero({
         currentOffset.current += diff * 0.14;
         setRenderOffset(currentOffset.current);
 
+        // Report progress to parent
         if (pitch && images.length > 0) {
           const rawIndex = Math.floor(currentOffset.current / pitch);
           const activeIndex = Math.min(images.length - 1, Math.max(0, rawIndex % images.length));
@@ -220,6 +261,7 @@ export function TiltedGridHero({
     return () => cancelAnimationFrame(animId);
   }, [pitch, images.length, totalStreamScroll, onProgressChange]);
 
+  // Dimensional helpers
   const u = (n: number) =>
     `calc(${+n.toFixed(4)} * min(${tileHeight}cqh, ${+(
       MAX_WIDTH / aspectRatio
@@ -236,6 +278,7 @@ export function TiltedGridHero({
     100 - fade
   }%,transparent)`;
 
+  // Tile wrapping function on the cylinder loop [-sweep, sweep)
   const loopSpan = 2 * sweep || 1;
   const wrapAngle = (ang: number) => {
     let wrapped = (ang + sweep) % loopSpan;
@@ -250,6 +293,7 @@ export function TiltedGridHero({
       {...props}
       style={{ containerType: "size", ...props.style }}
     >
+      {/* 3D Cylinder Spatial Projection Surface */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 transition-opacity duration-500"
@@ -262,14 +306,17 @@ export function TiltedGridHero({
         }}
       >
         {Array.from({ length: columns }, (_, t) => {
+          // Angular position of tile t, moving to the left as renderOffset increases
           const nominalAngle = sweep - t * pitch - renderOffset;
           const angle = wrapAngle(nominalAngle);
 
+          // Calculate which image to show based on how many full loop rotations occurred
           const lap = Math.floor((renderOffset + t * pitch) / loopSpan);
           const first = columns - 1 - t;
           const imageIndex = Math.abs((lap * columns + first) % Math.max(images.length, 1));
           const img = images[imageIndex];
 
+          // Hide tile if it is behind the camera / beyond screen limit
           const isOffscreen = Math.abs(angle) > limit;
 
           return (
@@ -325,6 +372,7 @@ export function TiltedGridHero({
         })}
       </div>
 
+      {/* Foreground Content (Letters & Controls positioned comfortably above moving band) */}
       {children}
     </div>
   );

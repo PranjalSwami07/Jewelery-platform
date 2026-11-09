@@ -38,18 +38,18 @@ export const Home: React.FC = () => {
       <Navbar onOpenConcierge={() => setIsConciergeOpen(true)} />
 
       {/* ── 1. LUXURY HERO SECTION WITH SCROLL ANIMATION ──────────────── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center pt-24 pb-16">
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center pt-24 pb-16">
         <div className="max-w-4xl mx-auto flex flex-col items-center">
           {/* Atelier Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold-500/30 bg-gold-950/40 backdrop-blur-md mb-8 animate-fadeIn">
+          <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full border border-gold-500/30 bg-gold-950/40 backdrop-blur-md mb-6 sm:mb-8 animate-fadeIn">
             <Gem className="w-3.5 h-3.5 text-gold-400" />
-            <span className="text-xs uppercase tracking-[0.3em] text-gold-300 font-sans">
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.22em] sm:tracking-[0.3em] text-gold-300 font-sans">
               Haute Joaillerie • Mumbai & Jaipur Ateliers
             </span>
           </div>
 
           {/* Main Title */}
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-serif text-gold-100 tracking-tight leading-[1.08] font-normal drop-shadow-2xl">
+          <h1 className="text-4xl xs:text-5xl sm:text-7xl lg:text-8xl font-serif text-gold-100 tracking-tight leading-[1.08] font-normal drop-shadow-2xl">
             L'Art de la
             <br />
             <span className="italic font-light bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 bg-clip-text text-transparent">
@@ -58,15 +58,15 @@ export const Home: React.FC = () => {
           </h1>
 
           {/* Subtitle description */}
-          <p className="mt-8 text-neutral-300 max-w-2xl text-base sm:text-lg font-sans font-light tracking-wide leading-relaxed">
+          <p className="mt-6 sm:mt-8 text-neutral-300 max-w-2xl text-sm sm:text-lg font-sans font-light tracking-wide leading-relaxed px-2">
             Where heritage French goldsmithing converges with 3D spatial optics. Discover graduated diamond rivières, 58-facet halo solitaires, and museum-grade masterworks with real-time macro inspection.
           </p>
 
           {/* Action CTAs */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-5">
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-5">
             <button
               onClick={() => scrollToSection("boutique")}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gold-500 hover:bg-gold-400 text-neutral-950 text-xs font-semibold uppercase tracking-widest transition-all duration-300 shadow-[0_0_25px_rgba(197,160,89,0.4)] hover:scale-105"
+              className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-gold-500 hover:bg-gold-400 text-neutral-950 text-xs font-semibold uppercase tracking-widest transition-all duration-300 shadow-[0_0_25px_rgba(197,160,89,0.4)] hover:scale-105 active:scale-95"
             >
               <Gem className="w-4 h-4" />
               <span>Explore Boutique</span>
@@ -74,7 +74,7 @@ export const Home: React.FC = () => {
 
             <button
               onClick={() => scrollToSection("morph-hero")}
-              className="px-7 py-3.5 rounded-full border border-gold-500/40 bg-black/40 hover:bg-gold-950/40 text-gold-200 text-xs font-medium uppercase tracking-widest transition-all duration-300 backdrop-blur-sm"
+              className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-full border border-gold-500/40 bg-black/40 hover:bg-gold-950/40 text-gold-200 text-xs font-medium uppercase tracking-widest transition-all duration-300 backdrop-blur-sm active:scale-95"
             >
               Explore 3D Arc Spectrum
             </button>
@@ -96,7 +96,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* ── 2. SECTION AFTER SCROLL HERO: 3D CYLINDRICAL TILTED GRID SPECTRUM ── */}
-      <section id="morph-hero" className="relative py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section id="morph-hero" className="relative py-12 sm:py-20 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <TiltedGridHeroDemo />
       </section>
 

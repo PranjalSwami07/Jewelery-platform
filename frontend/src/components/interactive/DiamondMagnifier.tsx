@@ -18,22 +18,22 @@ export const DiamondMagnifier: React.FC<DiamondMagnifierProps> = ({ onInquire })
   };
 
   return (
-    <div className="relative rounded-3xl border border-gold-500/25 bg-black/70 p-6 md:p-10 backdrop-blur-xl overflow-hidden shadow-2xl">
+    <div className="relative rounded-2xl sm:rounded-3xl border border-gold-500/25 bg-black/70 p-4 sm:p-6 md:p-10 backdrop-blur-xl overflow-hidden shadow-2xl">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-4">
         <div>
           <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-gold-400 font-sans">
             <ZoomIn className="w-3.5 h-3.5" /> High Precision Macro Loupe
           </span>
-          <h3 className="text-3xl md:text-4xl font-serif text-gold-100 mt-2">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif text-gold-100 mt-2">
             Multi-Creation 58-Facet Magnifier
           </h3>
-          <p className="text-neutral-400 text-sm mt-1 max-w-xl">
+          <p className="text-neutral-400 text-xs sm:text-sm mt-1 max-w-xl">
             Select any creation from our private reserve below to inspect stone girdle symmetry, diamond dispersion, and prong settings in ultra-smooth magnification.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs text-gold-300 font-mono border border-gold-500/30 px-3.5 py-1.5 rounded-full bg-gold-950/40">
+        <div className="flex items-center gap-2 text-xs text-gold-300 font-mono border border-gold-500/30 px-3.5 py-1.5 rounded-full bg-gold-950/40 shrink-0 w-fit">
           <ShieldCheck className="w-4 h-4 text-gold-400" />
           <span>GIA Triple Excellent Certified</span>
         </div>
@@ -87,7 +87,7 @@ export const DiamondMagnifier: React.FC<DiamondMagnifierProps> = ({ onInquire })
             alt={selectedPiece.alt}
             zoomLevel={3.5}
             lensSize={210}
-            aspectRatioClass="h-[420px] md:h-[500px]"
+            aspectRatioClass="h-[300px] xs:h-[360px] sm:h-[440px] md:h-[500px]"
             title={selectedPiece.name}
           />
         </div>

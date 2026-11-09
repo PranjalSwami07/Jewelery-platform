@@ -52,24 +52,24 @@ export const CaratConfigurator: React.FC = () => {
   const totalPrice = selectedCarat.basePrice + selectedMetal.priceModifier;
 
   return (
-    <div className="relative rounded-2xl border border-gold-500/25 bg-black/60 p-6 md:p-10 backdrop-blur-md overflow-hidden shadow-2xl">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+    <div className="relative rounded-2xl sm:rounded-3xl border border-gold-500/25 bg-black/60 p-4 sm:p-6 md:p-10 backdrop-blur-md overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-4">
         <div>
           <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-gold-400 font-sans">
             <Sliders className="w-3.5 h-3.5" /> Bespoke Configurator
           </span>
-          <h3 className="text-3xl md:text-4xl font-serif text-gold-100 mt-2">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif text-gold-100 mt-2">
             Precious Metal & Carat Atelier
           </h3>
-          <p className="text-neutral-400 text-sm mt-1 max-w-lg">
+          <p className="text-neutral-400 text-xs sm:text-sm mt-1 max-w-lg">
             Customize precious metal metallurgy and center stone carat volume with real-time radiance modeling.
           </p>
         </div>
-        <div className="text-right">
+        <div className="text-left md:text-right">
           <span className="text-xs uppercase tracking-widest text-neutral-400 font-sans">
             Estimated Atelier Value
           </span>
-          <div className="text-3xl md:text-4xl font-serif text-gold-200 mt-1">
+          <div className="text-2xl sm:text-3xl md:text-4xl font-serif text-gold-200 mt-1">
             ${totalPrice.toLocaleString()} <span className="text-xs text-neutral-400 font-sans">USD</span>
           </div>
         </div>
@@ -77,7 +77,7 @@ export const CaratConfigurator: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Visual Live Reflection Preview Box */}
-        <div className="lg:col-span-7 relative h-[360px] md:h-[420px] rounded-xl overflow-hidden border border-gold-500/30 bg-neutral-950 flex flex-col items-center justify-center p-8 group">
+        <div className="lg:col-span-7 relative h-[300px] xs:h-[350px] md:h-[420px] rounded-xl overflow-hidden border border-gold-500/30 bg-neutral-950 flex flex-col items-center justify-center p-6 sm:p-8 group">
           <div
             className="absolute inset-0 opacity-20 pointer-events-none transition-all duration-700"
             style={{ background: selectedMetal.reflectionGradient }}

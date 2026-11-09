@@ -144,7 +144,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
       {/* Backdrop */}
       <div
         onClick={handleReset}
@@ -152,7 +152,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
       />
 
       {/* Modal Surface */}
-      <div className="relative w-full max-w-2xl bg-neutral-950 border border-gold-500/35 rounded-3xl p-6 sm:p-10 shadow-[0_25px_90px_rgba(0,0,0,0.95)] z-10 overflow-hidden text-neutral-200">
+      <div className="relative w-full max-w-2xl bg-neutral-950 border border-gold-500/35 rounded-2xl sm:rounded-3xl p-5 sm:p-10 shadow-[0_25px_90px_rgba(0,0,0,0.95)] z-10 overflow-y-auto max-h-[92vh] my-auto text-neutral-200">
         {/* Ambient Top Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-24 bg-gold-500/15 blur-3xl pointer-events-none" />
 
@@ -160,7 +160,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
         <button
           onClick={handleReset}
           aria-label="Close Appointment Modal"
-          className="absolute top-5 right-5 w-9 h-9 rounded-full border border-gold-500/30 flex items-center justify-center text-neutral-400 hover:text-gold-200 hover:border-gold-400 bg-neutral-900/60 transition-all"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-gold-500/30 flex items-center justify-center text-neutral-400 hover:text-gold-200 hover:border-gold-400 bg-neutral-900/60 transition-all"
         >
           <X className="w-4 h-4" />
         </button>

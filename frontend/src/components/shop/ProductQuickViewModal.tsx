@@ -41,7 +41,7 @@ export const ProductQuickViewModal: React.FC<ProductQuickViewModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
       {/* Dimmed backdrop */}
       <div
         onClick={onClose}
@@ -49,35 +49,35 @@ export const ProductQuickViewModal: React.FC<ProductQuickViewModalProps> = ({
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-5xl rounded-3xl border border-gold-500/30 bg-neutral-950/95 shadow-2xl backdrop-blur-2xl overflow-hidden z-10 flex flex-col lg:flex-row my-auto max-h-[92vh]">
+      <div className="relative w-full max-w-5xl rounded-2xl sm:rounded-3xl border border-gold-500/30 bg-neutral-950/95 shadow-2xl backdrop-blur-2xl overflow-y-auto lg:overflow-hidden z-10 flex flex-col lg:flex-row my-auto max-h-[92vh]">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/70 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-gold-500/20 transition-colors"
+          className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 z-30 p-2 sm:p-2.5 rounded-full bg-black/75 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-gold-500/20 transition-colors"
           aria-label="Close"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Left Column: Interactive Smooth Magnifier Lens */}
-        <div className="lg:w-7/12 p-6 md:p-8 flex flex-col justify-center bg-black/50 border-b lg:border-b-0 lg:border-r border-gold-500/15">
+        <div className="lg:w-7/12 p-4 sm:p-6 md:p-8 flex flex-col justify-center bg-black/50 border-b lg:border-b-0 lg:border-r border-gold-500/15">
           <SmoothMagnifier
             imageSrc={product.image}
             alt={product.alt}
             zoomLevel={3.5}
-            lensSize={200}
-            aspectRatioClass="h-[380px] sm:h-[460px] md:h-[500px]"
+            lensSize={190}
+            aspectRatioClass="h-[250px] xs:h-[290px] sm:h-[420px] md:h-[480px]"
             title={product.name}
           />
 
-          <div className="mt-4 flex items-center justify-between text-xs text-neutral-400 font-mono">
+          <div className="mt-3 sm:mt-4 flex items-center justify-between text-[11px] sm:text-xs text-neutral-400 font-mono">
             <span>Certification: {product.cutGrade}</span>
             <span className="text-gold-300">{product.caratWeight}</span>
           </div>
         </div>
 
         {/* Right Column: E-commerce Details & Configuration */}
-        <div className="lg:w-5/12 p-6 md:p-8 flex flex-col justify-between overflow-y-auto space-y-6">
+        <div className="lg:w-5/12 p-4 sm:p-6 md:p-8 flex flex-col justify-between overflow-y-visible lg:overflow-y-auto space-y-5 sm:space-y-6">
           <div className="space-y-4">
             {/* Collection & Title */}
             <div>

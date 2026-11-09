@@ -21,11 +21,11 @@ export const ParallaxBanner: React.FC = () => {
     <div
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative rounded-3xl border border-gold-500/30 bg-gradient-to-r from-neutral-950 via-black to-neutral-900 p-8 md:p-16 overflow-hidden shadow-2xl transition-all duration-300 group"
+      className="relative rounded-2xl sm:rounded-3xl border border-gold-500/30 bg-gradient-to-r from-neutral-950 via-black to-neutral-900 p-5 sm:p-8 md:p-16 overflow-hidden shadow-2xl transition-all duration-300 group"
     >
       {/* Background Floating Jewelry Layer (Far Z) */}
       <div
-        className="absolute -right-12 -top-12 w-[480px] h-[480px] opacity-35 transition-transform duration-300 ease-out pointer-events-none"
+        className="absolute -right-12 -top-12 w-[340px] sm:w-[480px] h-[340px] sm:h-[480px] opacity-25 sm:opacity-35 transition-transform duration-300 ease-out pointer-events-none"
         style={{
           transform: `translate(${coords.x * 40}px, ${coords.y * 40}px) rotate(${coords.x * 10}deg)`,
         }}
@@ -39,7 +39,7 @@ export const ParallaxBanner: React.FC = () => {
 
       {/* Mid Layer Floating Jewels (Mid Z) */}
       <div
-        className="absolute right-12 md:right-32 bottom-0 w-[300px] h-[300px] opacity-80 transition-transform duration-200 ease-out pointer-events-none"
+        className="absolute -right-6 sm:right-12 md:right-32 bottom-0 w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] opacity-40 sm:opacity-80 transition-transform duration-200 ease-out pointer-events-none"
         style={{
           transform: `translate(${coords.x * -60}px, ${coords.y * -60}px) scale(1.05)`,
         }}
@@ -63,26 +63,26 @@ export const ParallaxBanner: React.FC = () => {
 
       {/* Content Layer (Foreground) */}
       <div className="relative z-10 max-w-xl">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-500/30 bg-gold-950/40 text-gold-300 text-xs uppercase tracking-[0.2em] mb-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-500/30 bg-gold-950/40 text-gold-300 text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-3 sm:mb-4">
           <Sparkles className="w-3.5 h-3.5 text-gold-400" />
           <span>Haute Joaillerie Commission</span>
         </div>
-        <h2 className="text-3xl md:text-5xl font-serif text-gold-100 leading-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl font-serif text-gold-100 leading-tight">
           Bespoke Creations Crafted by Master Artisans
         </h2>
-        <p className="mt-4 text-neutral-300 text-sm md:text-base font-sans leading-relaxed">
+        <p className="mt-3 sm:mt-4 text-neutral-300 text-xs sm:text-sm md:text-base font-sans leading-relaxed">
           From sourcing untreated Kashmir sapphires and Golconda diamonds to lost-wax casting in our Mumbai & Jaipur ateliers, collaborate directly with our Creative Director.
         </p>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gold-500 hover:bg-gold-400 text-black font-medium text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(197,160,89,0.4)] cursor-pointer hover:scale-105 active:scale-95"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-full bg-gold-500 hover:bg-gold-400 text-black font-medium text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(197,160,89,0.4)] cursor-pointer hover:scale-105 active:scale-95"
           >
             <span>Book Private Salon Appointment</span>
             <ArrowRight className="w-4 h-4" />
           </button>
-          <span className="text-xs text-gold-400/90 font-mono tracking-wider">
+          <span className="text-xs text-gold-400/90 font-mono tracking-wider text-center sm:text-left">
             Mumbai • New Delhi • Jaipur • Bengaluru
           </span>
         </div>

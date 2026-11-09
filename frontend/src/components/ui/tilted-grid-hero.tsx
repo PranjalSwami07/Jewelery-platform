@@ -121,8 +121,9 @@ export function TiltedGridHero({
     layout ?? measure(1200, 600, tileHeight, aspectRatio, gap, bend);
 
   // --- Scroll-Driven Stream Engine ---
-  // Distance in px to advance 1 image in the stream
-  const SCROLL_PER_IMAGE = 240;
+  // Calibrated for both desktop mousewheel and smartphone thumb swipes
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const SCROLL_PER_IMAGE = isMobile ? 120 : 240;
   const totalStreamScroll = Math.max(images.length, 1) * SCROLL_PER_IMAGE;
 
   const scrollAccumulator = React.useRef(0);
@@ -154,11 +155,9 @@ export function TiltedGridHero({
       if (e.deltaY > 0) {
         const remaining = totalStreamScroll - scrollAccumulator.current;
         if (e.deltaY >= remaining) {
-          // Exactly completes the full sequence of all creations
           scrollAccumulator.current = totalStreamScroll;
           targetOffset.current = totalAngleSpan;
           isCompletedRef.current = true;
-          // Notify parent and allow remainder to scroll the page
           return;
         } else {
           e.preventDefault();
@@ -185,24 +184,39 @@ export function TiltedGridHero({
       }
     };
 
-    // Touch support for mobile: smoothly advance without trapping
+    // Smartphone Touch Gestures: supports both natural horizontal thumb swipes and vertical scrolls
     let touchStartY = 0;
+    let touchStartX = 0;
     const handleTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
+      if (e.touches.length > 0) {
+        touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+      }
     };
     const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 0) return;
       const touchY = e.touches[0].clientY;
+      const touchX = e.touches[0].clientX;
       const deltaY = touchStartY - touchY;
+      const deltaX = touchStartX - touchX;
       touchStartY = touchY;
+      touchStartX = touchX;
 
-      if (deltaY > 0 && scrollAccumulator.current >= totalStreamScroll) {
-        return; // Native scroll down
+      // On mobile phones, horizontal thumb swipes and vertical scrolls both fluidly drive the 3D cylinder
+      const effectiveDelta =
+        Math.abs(deltaX) > Math.abs(deltaY) ? deltaX * 1.8 : deltaY * 1.5;
+
+      if (effectiveDelta > 0 && scrollAccumulator.current >= totalStreamScroll) {
+        return; // Native page scroll down to #boutique
       }
-      if (deltaY < 0 && scrollAccumulator.current <= 0) {
-        return; // Native scroll up
+      if (effectiveDelta < 0 && scrollAccumulator.current <= 0) {
+        return; // Native page scroll up
       }
 
-      const next = Math.min(Math.max(scrollAccumulator.current + deltaY * 1.6, 0), totalStreamScroll);
+      const next = Math.min(
+        Math.max(scrollAccumulator.current + effectiveDelta, 0),
+        totalStreamScroll
+      );
       scrollAccumulator.current = next;
       const progress = next / totalStreamScroll;
       targetOffset.current = progress * totalAngleSpan;

@@ -26,8 +26,23 @@ export const SmoothMagnifier: React.FC<SmoothMagnifierProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [lensPos, setLensPos] = useState({ x: 50, y: 50, pxX: 0, pxY: 0 });
   const [currentZoom, setCurrentZoom] = useState(zoomLevel);
+  const [actualLensSize, setActualLensSize] = useState(lensSize);
   const targetPos = useRef({ x: 50, y: 50, pxX: 0, pxY: 0 });
   const animFrameId = useRef<number | null>(null);
+
+  // Dynamically calibrate lens size for mobile phone viewports
+  useEffect(() => {
+    const updateSize = () => {
+      if (typeof window !== "undefined" && window.innerWidth < 640) {
+        setActualLensSize(Math.min(lensSize, 140));
+      } else {
+        setActualLensSize(lensSize);
+      }
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, [lensSize]);
 
   // Smooth lerp animation loop
   const updateLens = useCallback(() => {
@@ -91,27 +106,58 @@ export const SmoothMagnifier: React.FC<SmoothMagnifierProps> = ({
     setIsHovered(false);
   };
 
-  const halfLens = lensSize / 2;
+  // Direct Smartphone Touch Gestures: seamless glide under user's finger
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!containerRef.current || e.touches.length === 0) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    const clientX = touch.clientX;
+    const clientY = touch.clientY;
+
+    const pxX = Math.max(0, Math.min(rect.width, clientX - rect.left));
+    const pxY = Math.max(0, Math.min(rect.height, clientY - rect.top));
+
+    const percentX = (pxX / rect.width) * 100;
+    const percentY = (pxY / rect.height) * 100;
+
+    targetPos.current = {
+      x: percentX,
+      y: percentY,
+      pxX,
+      pxY,
+    };
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setIsHovered(true);
+    handleTouchMove(e);
+  };
+
+  const handleTouchEnd = () => {
+    setIsHovered(false);
+  };
+
+  const halfLens = actualLensSize / 2;
 
   return (
     <div className={`relative flex flex-col gap-2.5 ${className}`}>
       {/* ── EXTERNAL CONTROLS TOOLBAR (Outside the image box so hovering is completely undisturbed) ── */}
-      <div className="flex items-center justify-between px-1 select-none">
+      <div className="flex items-center justify-between gap-2 px-1 select-none">
         {title ? (
-          <div className="flex items-center gap-2 text-xs sm:text-sm text-gold-200 font-serif tracking-wide truncate max-w-[200px] sm:max-w-xs md:max-w-md">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gold-200 font-serif tracking-wide truncate max-w-[130px] xs:max-w-[200px] sm:max-w-xs md:max-w-md">
             <Sparkles className="w-3.5 h-3.5 text-gold-400 shrink-0" />
             <span className="truncate">{title}</span>
           </div>
         ) : (
-          <div className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-gold-400 font-mono">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] uppercase tracking-widest text-gold-400 font-mono truncate">
             <Sparkles className="w-3 h-3 text-gold-400 shrink-0 animate-pulse" />
-            <span>High Precision Macro Loupe</span>
+            <span>Macro Loupe</span>
           </div>
         )}
 
         {/* Quick Zoom Controls Floating Bar — Placed outside so mouse hover over image is never disturbed */}
-        <div className="flex items-center gap-1.5 bg-black/85 backdrop-blur-md px-3 py-1.5 rounded-full border border-gold-500/35 shadow-lg">
-          <span className="text-[11px] uppercase font-mono text-gold-400/90 font-semibold tracking-wider pr-1">
+        <div className="flex items-center gap-1 sm:gap-1.5 bg-black/85 backdrop-blur-md px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-gold-500/35 shadow-lg shrink-0">
+          <span className="text-[10px] sm:text-[11px] uppercase font-mono text-gold-400/90 font-semibold tracking-wider pr-0.5 sm:pr-1">
             ZOOM
           </span>
           {[2.5, 3.5, 5.0].map((level) => (
@@ -123,7 +169,7 @@ export const SmoothMagnifier: React.FC<SmoothMagnifierProps> = ({
                 setCurrentZoom(level);
               }}
               aria-label={`Set magnification to ${level}x`}
-              className={`px-3 py-1 rounded-full text-xs font-mono font-medium transition-all ${
+              className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[11px] sm:text-xs font-mono font-medium transition-all ${
                 currentZoom === level
                   ? "bg-gold-500 text-black shadow-[0_0_12px_rgba(197,160,89,0.6)] font-bold scale-105"
                   : "text-neutral-400 hover:text-gold-200 bg-neutral-900/70 hover:bg-neutral-800"
@@ -141,7 +187,10 @@ export const SmoothMagnifier: React.FC<SmoothMagnifierProps> = ({
         onPointerEnter={handlePointerEnter}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
-        className={`relative w-full ${aspectRatioClass} rounded-2xl overflow-hidden cursor-crosshair border border-gold-500/25 bg-neutral-950 select-none shadow-2xl group`}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className={`relative w-full ${aspectRatioClass} rounded-2xl overflow-hidden cursor-crosshair border border-gold-500/25 bg-neutral-950 select-none shadow-2xl group touch-none`}
       >
         {/* Main Base Image */}
         <img
@@ -160,8 +209,8 @@ export const SmoothMagnifier: React.FC<SmoothMagnifierProps> = ({
           <div
             className="absolute pointer-events-none rounded-full overflow-hidden border-2 border-gold-400 shadow-[0_0_35px_rgba(197,160,89,0.7),inset_0_0_20px_rgba(255,255,255,0.4)] z-30 transition-opacity duration-200"
             style={{
-              width: `${lensSize}px`,
-              height: `${lensSize}px`,
+              width: `${actualLensSize}px`,
+              height: `${actualLensSize}px`,
               left: `${lensPos.pxX}px`,
               top: `${lensPos.pxY}px`,
               transform: "translate(-50%, -50%)",
@@ -190,17 +239,17 @@ export const SmoothMagnifier: React.FC<SmoothMagnifierProps> = ({
             )}
 
             {/* Magnification Factor Badge */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/85 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-gold-500/40 text-[10px] font-mono tracking-wider text-gold-300 uppercase shadow-md">
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/85 backdrop-blur-md px-2 py-0.5 rounded-full border border-gold-500/40 text-[9px] sm:text-[10px] font-mono tracking-wider text-gold-300 uppercase shadow-md">
               {currentZoom.toFixed(1)}x Loupe
             </div>
           </div>
         )}
 
         {/* Floating Instruction / Status Indicator (pointer-events-none so mouse is not blocked) */}
-        <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 pointer-events-none bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-gold-500/30 text-xs text-neutral-200 shadow-lg">
-          <Sparkles className="w-3.5 h-3.5 text-gold-400 animate-pulse" />
-          <span className="font-sans text-[11px] tracking-wide">
-            {isHovered ? "Inspecting 58-Facet Symmetry" : "Hover or drag over jewelry to activate loupe"}
+        <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 z-20 flex items-center gap-1.5 sm:gap-2 pointer-events-none bg-black/75 backdrop-blur-md px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-gold-500/30 text-[10px] sm:text-xs text-neutral-200 shadow-lg max-w-[85%] sm:max-w-none">
+          <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gold-400 animate-pulse shrink-0" />
+          <span className="font-sans tracking-wide truncate">
+            {isHovered ? "58-Facet Diamond Symmetry" : "Drag finger or hover to inspect"}
           </span>
         </div>
       </div>

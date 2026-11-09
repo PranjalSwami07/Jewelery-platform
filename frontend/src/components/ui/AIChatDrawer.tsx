@@ -113,32 +113,32 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
       />
 
       {/* Drawer */}
-      <div className="relative w-full max-w-md bg-neutral-950/95 border-l border-gold-500/25 h-full flex flex-col z-10 shadow-2xl backdrop-blur-xl">
+      <div className="relative w-full sm:max-w-md bg-neutral-950/95 border-l border-gold-500/25 h-full flex flex-col z-10 shadow-2xl backdrop-blur-xl">
         {/* Header */}
-        <div className="p-6 border-b border-gold-500/20 flex items-center justify-between bg-gold-950/20">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full border border-gold-400/50 flex items-center justify-center bg-gold-950/50">
-              <Sparkles className="w-5 h-5 text-gold-300" />
+        <div className="p-4 sm:p-6 border-b border-gold-500/20 flex items-center justify-between bg-gold-950/20">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gold-400/50 flex items-center justify-center bg-gold-950/50 shrink-0">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-gold-300" />
             </div>
             <div>
-              <h3 className="font-serif text-lg text-gold-100 font-medium">
+              <h3 className="font-serif text-base sm:text-lg text-gold-100 font-medium">
                 Maison AI Concierge
               </h3>
-              <p className="text-[11px] text-gold-400/80 font-sans tracking-widest uppercase">
+              <p className="text-[10px] sm:text-[11px] text-gold-400/80 font-sans tracking-widest uppercase">
                 24/7 Haute Joaillerie Advisor
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-neutral-400 hover:text-gold-200 transition-colors"
+            className="p-1.5 sm:p-2 text-neutral-400 hover:text-gold-200 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Messages Body */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3.5 sm:space-y-4">
           {messages.map((m, idx) => (
             <div
               key={idx}
@@ -147,7 +147,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
               }`}
             >
               <div
-                className={`max-w-[85%] rounded-2xl p-4 text-sm leading-relaxed ${
+                className={`max-w-[88%] sm:max-w-[85%] rounded-2xl p-3.5 sm:p-4 text-xs sm:text-sm leading-relaxed ${
                   m.role === "user"
                     ? "bg-gold-500/20 text-gold-100 border border-gold-500/30 rounded-br-none"
                     : "bg-neutral-900/90 text-neutral-200 border border-neutral-800 rounded-bl-none shadow-md"
@@ -170,12 +170,12 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
         </div>
 
         {/* Quick Suggestion Chips */}
-        <div className="px-6 py-2 border-t border-gold-500/10 flex flex-wrap gap-2">
+        <div className="px-4 sm:px-6 py-2 border-t border-gold-500/10 flex flex-wrap gap-1.5 sm:gap-2">
           {predefinedPrompts.map((prompt, i) => (
             <button
               key={i}
               onClick={() => handleSend(prompt)}
-              className="text-[11px] text-gold-300/85 hover:text-gold-100 bg-black/40 hover:bg-gold-950/40 border border-gold-500/25 px-2.5 py-1 rounded-full transition-colors text-left"
+              className="text-[10px] sm:text-[11px] text-gold-300/85 hover:text-gold-100 bg-black/40 hover:bg-gold-950/40 border border-gold-500/25 px-2.5 py-1 rounded-full transition-colors text-left"
             >
               {prompt}
             </button>
@@ -183,7 +183,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
         </div>
 
         {/* Input Footer */}
-        <div className="p-4 border-t border-gold-500/20 bg-black/40">
+        <div className="p-3 sm:p-4 border-t border-gold-500/20 bg-black/40">
           <form
             onSubmit={(e) => {
               e.preventDefault();
