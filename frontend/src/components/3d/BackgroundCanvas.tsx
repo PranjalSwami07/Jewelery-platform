@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
+import { useTheme } from "@/context/ThemeContext";
 
 interface Point3D {
   x: number;
@@ -10,7 +11,13 @@ interface Point3D {
 export const BackgroundCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { scrollProgress } = useScrollProgress();
+  const { isDark } = useTheme();
+  const isDarkRef = useRef(isDark);
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
+
+  useEffect(() => {
+    isDarkRef.current = isDark;
+  }, [isDark]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -102,7 +109,9 @@ export const BackgroundCanvas: React.FC = () => {
 
       ctx.clearRect(0, 0, width, height);
 
-      // Deep luxury gradient background
+      const dark = isDarkRef.current;
+
+      // Deep luxury gradient background (Noir in Dark mode, Warm Alabaster Ivory in Light mode)
       const bgGrad = ctx.createRadialGradient(
         width / 2 + mouseRef.current.x * 60,
         height / 2 + mouseRef.current.y * 60,
@@ -111,9 +120,17 @@ export const BackgroundCanvas: React.FC = () => {
         height / 2,
         Math.max(width, height) * 0.85
       );
-      bgGrad.addColorStop(0, "#191512");
-      bgGrad.addColorStop(0.4, "#0f0e0d");
-      bgGrad.addColorStop(1, "#070707");
+
+      if (dark) {
+        bgGrad.addColorStop(0, "#191512");
+        bgGrad.addColorStop(0.4, "#0f0e0d");
+        bgGrad.addColorStop(1, "#070707");
+      } else {
+        bgGrad.addColorStop(0, "#FAF8F2");
+        bgGrad.addColorStop(0.4, "#F2ECE0");
+        bgGrad.addColorStop(1, "#E7DDCB");
+      }
+
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, width, height);
 
@@ -169,16 +186,22 @@ export const BackgroundCanvas: React.FC = () => {
         originY,
         280
       );
-      glowGrad.addColorStop(0, "rgba(219, 193, 126, 0.16)");
-      glowGrad.addColorStop(0.5, "rgba(197, 160, 89, 0.06)");
-      glowGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
+      if (dark) {
+        glowGrad.addColorStop(0, "rgba(219, 193, 126, 0.16)");
+        glowGrad.addColorStop(0.5, "rgba(197, 160, 89, 0.06)");
+        glowGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
+      } else {
+        glowGrad.addColorStop(0, "rgba(219, 193, 126, 0.28)");
+        glowGrad.addColorStop(0.5, "rgba(197, 160, 89, 0.12)");
+        glowGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
+      }
       ctx.fillStyle = glowGrad;
       ctx.beginPath();
       ctx.arc(originX, originY, 280, 0, Math.PI * 2);
       ctx.fill();
 
       // Draw Diamond Facets & Wireframe Edges
-      ctx.lineWidth = 1.2;
+      ctx.lineWidth = dark ? 1.2 : 1.4;
       gemEdges.forEach(([i, j]) => {
         const p1 = projected[i];
         const p2 = projected[j];
@@ -187,7 +210,9 @@ export const BackgroundCanvas: React.FC = () => {
         const avgZ = (p1.z + p2.z) / 2;
         const depthAlpha = Math.max(0.12, Math.min(0.75, 1 - (avgZ - 650) / 450));
 
-        ctx.strokeStyle = `rgba(225, 198, 138, ${depthAlpha * 0.8})`;
+        ctx.strokeStyle = dark
+          ? `rgba(225, 198, 138, ${depthAlpha * 0.8})`
+          : `rgba(168, 128, 48, ${depthAlpha * 0.9})`;
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
@@ -197,7 +222,9 @@ export const BackgroundCanvas: React.FC = () => {
       // Highlight facet apexes
       projected.forEach((p) => {
         const apexAlpha = Math.max(0.2, Math.min(0.9, 1 - (p.z - 650) / 450));
-        ctx.fillStyle = `rgba(255, 245, 220, ${apexAlpha})`;
+        ctx.fillStyle = dark
+          ? `rgba(255, 245, 220, ${apexAlpha})`
+          : `rgba(131, 101, 43, ${apexAlpha * 0.9})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, Math.max(1, 2.5 * p.scale), 0, Math.PI * 2);
         ctx.fill();
@@ -218,7 +245,9 @@ export const BackgroundCanvas: React.FC = () => {
           const alpha =
             (p.opacity + Math.sin(p.shimmer) * 0.3) *
             Math.max(0, Math.min(1, 1 - pZ / 1200));
-          ctx.fillStyle = `rgba(219, 193, 126, ${Math.max(0.05, alpha)})`;
+          ctx.fillStyle = dark
+            ? `rgba(219, 193, 126, ${Math.max(0.05, alpha)})`
+            : `rgba(180, 140, 50, ${Math.max(0.08, alpha * 0.8)})`;
           ctx.beginPath();
           ctx.arc(screenX, screenY, p.size * pScale, 0, Math.PI * 2);
           ctx.fill();

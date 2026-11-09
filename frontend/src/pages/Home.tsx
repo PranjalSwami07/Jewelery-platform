@@ -44,24 +44,24 @@ export const Home: React.FC = () => {
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center pt-24 pb-16">
         <div className="max-w-4xl mx-auto flex flex-col items-center">
           {/* Atelier Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full border border-gold-500/30 bg-gold-950/40 backdrop-blur-md mb-6 sm:mb-8 animate-fadeIn">
-            <Gem className="w-3.5 h-3.5 text-gold-400" />
-            <span className="text-[10px] sm:text-xs uppercase tracking-[0.22em] sm:tracking-[0.3em] text-gold-300 font-sans">
+          <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full border border-gold-500/40 bg-gold-500/10 dark:bg-gold-950/40 backdrop-blur-md mb-6 sm:mb-8 animate-fadeIn">
+            <Gem className="w-3.5 h-3.5 text-gold-600 dark:text-gold-400" />
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.22em] sm:tracking-[0.3em] text-gold-800 dark:text-gold-300 font-sans font-medium">
               Haute Joaillerie • Mumbai & Jaipur Ateliers
             </span>
           </div>
 
           {/* Main Title */}
-          <h1 className="text-4xl xs:text-5xl sm:text-7xl lg:text-8xl font-serif text-gold-100 tracking-tight leading-[1.08] font-normal drop-shadow-2xl">
+          <h1 className="text-4xl xs:text-5xl sm:text-7xl lg:text-8xl font-serif text-stone-900 dark:text-gold-100 tracking-tight leading-[1.08] font-normal drop-shadow-xl dark:drop-shadow-2xl">
             L'Art de la
             <br />
-            <span className="italic font-light bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 bg-clip-text text-transparent">
+            <span className="italic font-light bg-gradient-to-r from-gold-600 via-gold-500 to-gold-700 dark:from-gold-200 dark:via-gold-400 dark:to-gold-200 bg-clip-text text-transparent">
               Lumière Éternelle
             </span>
           </h1>
 
           {/* Subtitle description */}
-          <p className="mt-6 sm:mt-8 text-neutral-300 max-w-2xl text-sm sm:text-lg font-sans font-light tracking-wide leading-relaxed px-2">
+          <p className="mt-6 sm:mt-8 text-stone-700 dark:text-neutral-300 max-w-2xl text-sm sm:text-lg font-sans font-light tracking-wide leading-relaxed px-2">
             Where heritage French goldsmithing converges with 3D spatial optics. Discover graduated diamond rivières, 58-facet halo solitaires, and museum-grade masterworks with real-time macro inspection.
           </p>
 
@@ -69,7 +69,7 @@ export const Home: React.FC = () => {
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-5">
             <button
               onClick={() => scrollToSection("boutique")}
-              className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-gold-500 hover:bg-gold-400 text-neutral-950 text-xs font-semibold uppercase tracking-widest transition-all duration-300 shadow-[0_0_25px_rgba(197,160,89,0.4)] hover:scale-105 active:scale-95"
+              className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-gold-500 hover:bg-gold-400 text-neutral-950 text-xs font-semibold uppercase tracking-widest transition-all duration-300 shadow-[0_0_25px_rgba(197,160,89,0.4)] hover:scale-105 active:scale-95 cursor-pointer"
             >
               <Gem className="w-4 h-4" />
               <span>Explore Boutique</span>
@@ -77,16 +77,16 @@ export const Home: React.FC = () => {
 
             <button
               onClick={() => scrollToSection("morph-hero")}
-              className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-full border border-gold-500/40 bg-black/40 hover:bg-gold-950/40 text-gold-200 text-xs font-medium uppercase tracking-widest transition-all duration-300 backdrop-blur-sm active:scale-95"
+              className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-full border border-gold-500/40 bg-white/70 dark:bg-black/40 hover:bg-gold-500/10 dark:hover:bg-gold-950/40 text-stone-800 dark:text-gold-200 text-xs font-medium uppercase tracking-widest transition-all duration-300 backdrop-blur-sm active:scale-95 cursor-pointer shadow-sm"
             >
               Explore 3D Arc Spectrum
             </button>
 
             <button
               onClick={() => setIsConciergeOpen(true)}
-              className="hidden sm:inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-gold-500/40 text-neutral-300 text-xs font-medium uppercase tracking-widest transition-all duration-300 backdrop-blur-sm"
+              className="hidden sm:inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-stone-300 dark:border-neutral-800 bg-white/60 dark:bg-neutral-950/60 hover:border-gold-500/40 text-stone-700 dark:text-neutral-300 text-xs font-medium uppercase tracking-widest transition-all duration-300 backdrop-blur-sm cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-gold-400" />
+              <Sparkles className="w-3.5 h-3.5 text-gold-600 dark:text-gold-400" />
               <span>AI Concierge</span>
             </button>
           </div>
@@ -117,13 +117,13 @@ export const Home: React.FC = () => {
       {/* ── 5. BESPOKE ATELIER & CARAT CONFIGURATOR ─────────────────── */}
       <section id="configurator" className="relative py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
         <div className="text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-500/30 bg-gold-950/30 text-gold-400 text-xs uppercase tracking-[0.25em] mb-4">
-            <Award className="w-3.5 h-3.5" /> Bespoke Commission
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-500/40 bg-gold-500/10 dark:bg-gold-950/30 text-gold-800 dark:text-gold-400 text-xs uppercase tracking-[0.25em] mb-4">
+            <Award className="w-3.5 h-3.5 text-gold-600 dark:text-gold-400" /> Bespoke Commission
           </div>
-          <h2 className="text-3xl sm:text-5xl font-serif text-gold-100 leading-tight">
+          <h2 className="text-3xl sm:text-5xl font-serif text-stone-900 dark:text-gold-100 leading-tight">
             Haute Joaillerie Atelier Configurator
           </h2>
-          <p className="mt-3 text-neutral-400 text-sm sm:text-base font-sans">
+          <p className="mt-3 text-stone-600 dark:text-neutral-400 text-sm sm:text-base font-sans">
             Tailor diamond carat weights, simulate 18K gold and platinum metallurgy reflections, and commission your private heirloom.
           </p>
         </div>
@@ -136,12 +136,12 @@ export const Home: React.FC = () => {
       </section>
 
       {/* ── 6. ATELIER HERITAGE ACCENTS ──────────────────────────────── */}
-      <section className="relative py-20 px-6 max-w-5xl mx-auto text-center border-t border-gold-500/15">
-        <Shield className="w-8 h-8 text-gold-400 mx-auto mb-4" />
-        <h3 className="text-3xl font-serif text-gold-100">
+      <section className="relative py-20 px-6 max-w-5xl mx-auto text-center border-t border-gold-500/20">
+        <Shield className="w-8 h-8 text-gold-500 dark:text-gold-400 mx-auto mb-4" />
+        <h3 className="text-3xl font-serif text-stone-900 dark:text-gold-100">
           The Maison Guarantee of Provenance
         </h3>
-        <p className="mt-4 text-neutral-400 text-sm max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-4 text-stone-600 dark:text-neutral-400 text-sm max-w-2xl mx-auto leading-relaxed">
           Every gemstone placed within our graduated rivières, solitaires, and bespoke creations is laser-inscribed with a microscopic hallmark, accompanied by GIA/SSEF certificates and full mine-to-finger ethical traceability.
         </p>
       </section>

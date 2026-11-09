@@ -1,11 +1,14 @@
 import { CartProvider } from "@/context/CartContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { Home } from "@/pages/Home";
 
 function App() {
   return (
-    <CartProvider>
-      <Home />
-    </CartProvider>
+    <ThemeProvider>
+      <CartProvider>
+        <Home />
+      </CartProvider>
+    </ThemeProvider>
   );
 }
 

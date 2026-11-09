@@ -4,31 +4,31 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%; /* #0a0a0a */
-    --foreground: 0 0% 93%; /* #ededed */
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 93%;
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 93%;
-    --primary: 40 48% 52%;
+    --background: 40 25% 97%; /* #FAF8F5 luxury pearl ivory */
+    --foreground: 30 15% 12%; /* #1F1B16 deep royal espresso */
+    --card: 40 22% 95%;
+    --card-foreground: 30 15% 12%;
+    --popover: 40 22% 95%;
+    --popover-foreground: 30 15% 12%;
+    --primary: 40 50% 45%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 40 12% 12%;
-    --secondary-foreground: 0 0% 93%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 240 4% 65%;
-    --accent: 40 35% 15%;
-    --accent-foreground: 0 0% 93%;
+    --secondary: 40 18% 90%;
+    --secondary-foreground: 30 15% 15%;
+    --muted: 40 15% 91%;
+    --muted-foreground: 30 10% 45%;
+    --accent: 40 30% 90%;
+    --accent-foreground: 30 15% 12%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 40 12% 18%;
-    --input: 40 12% 18%;
-    --ring: 40 48% 52%;
+    --border: 40 25% 82%;
+    --input: 40 20% 86%;
+    --ring: 40 50% 45%;
     --radius: 0.6rem;
   }
 
   .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 93%;
+    --background: 0 0% 4%; /* #0a0a0a */
+    --foreground: 0 0% 93%; /* #ededed */
     --card: 0 0% 6%;
     --card-foreground: 0 0% 93%;
     --popover: 0 0% 6%;
@@ -56,6 +56,7 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 

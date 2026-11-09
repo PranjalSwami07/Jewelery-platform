@@ -60,29 +60,29 @@ export const ShopCatalog: React.FC<ShopCatalogProps> = ({
     <section id="boutique" className="relative py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-500/30 bg-gold-950/30 text-gold-400 text-xs uppercase tracking-[0.25em] mb-4">
-          <Gem className="w-3.5 h-3.5" /> Haute Joaillerie Boutique
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-500/40 bg-gold-500/10 dark:bg-gold-950/30 text-gold-800 dark:text-gold-400 text-xs uppercase tracking-[0.25em] mb-4 font-medium">
+          <Gem className="w-3.5 h-3.5 text-gold-600 dark:text-gold-400" /> Haute Joaillerie Boutique
         </div>
-        <h2 className="text-3xl sm:text-5xl font-serif text-gold-100 leading-tight">
+        <h2 className="text-3xl sm:text-5xl font-serif text-stone-900 dark:text-gold-100 leading-tight">
           Explore The Curated Salon
         </h2>
-        <p className="mt-3 text-neutral-400 text-sm sm:text-base font-sans">
+        <p className="mt-3 text-stone-600 dark:text-neutral-400 text-sm sm:text-base font-sans">
           Browse our collection as effortlessly as online fashion shopping. Filter by category, inspect 58-facet symmetry with the instant macro loupe, and reserve bespoke creations.
         </p>
       </div>
 
       {/* Filter and Search Bar Controls (Clothing Store Style) */}
-      <div className="bg-neutral-950/80 border border-gold-500/20 rounded-2xl p-4 sm:p-6 mb-10 backdrop-blur-xl shadow-xl flex flex-col gap-6">
+      <div className="bg-white/90 dark:bg-neutral-950/80 border border-gold-500/25 rounded-2xl p-4 sm:p-6 mb-10 backdrop-blur-xl shadow-lg dark:shadow-xl flex flex-col gap-6">
         {/* Category Tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-medium whitespace-nowrap transition-all duration-300 ${
+              className={`px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-medium whitespace-nowrap transition-all duration-300 cursor-pointer ${
                 selectedCategory === cat.id
                   ? "bg-gold-500 text-black shadow-[0_0_15px_rgba(197,160,89,0.4)] font-semibold"
-                  : "bg-neutral-900/80 text-neutral-400 hover:text-gold-200 hover:bg-neutral-800"
+                  : "bg-stone-100 dark:bg-neutral-900/80 text-stone-700 dark:text-neutral-400 hover:text-gold-700 dark:hover:text-gold-200 hover:bg-stone-200 dark:hover:bg-neutral-800"
               }`}
             >
               {cat.label}
@@ -91,21 +91,21 @@ export const ShopCatalog: React.FC<ShopCatalogProps> = ({
         </div>
 
         {/* Secondary Filters: Search, Metal & Sorting */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 pt-4 border-t border-neutral-900">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 pt-4 border-t border-stone-200 dark:border-neutral-900">
           {/* Search Box */}
           <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-stone-400 dark:text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search diamonds, rivières, cuts, gemstones..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl pl-10 pr-4 py-2 text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:border-gold-400 transition-colors"
+              className="w-full bg-stone-50 dark:bg-neutral-900 border border-stone-300 dark:border-neutral-800 rounded-xl pl-10 pr-4 py-2 text-xs text-stone-900 dark:text-neutral-100 placeholder:text-stone-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-gold-400 transition-colors"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neutral-400 hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-stone-500 hover:text-stone-900 dark:text-neutral-400 dark:hover:text-white"
               >
                 Clear
               </button>
@@ -115,13 +115,13 @@ export const ShopCatalog: React.FC<ShopCatalogProps> = ({
           <div className="flex flex-wrap items-center gap-3">
             {/* Metal Filter */}
             <div className="flex items-center gap-2">
-              <span className="text-[11px] text-neutral-400 uppercase tracking-wider font-mono">
+              <span className="text-[11px] text-stone-600 dark:text-neutral-400 uppercase tracking-wider font-mono">
                 Metal:
               </span>
               <select
                 value={selectedMetal}
                 onChange={(e) => setSelectedMetal(e.target.value)}
-                className="bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-gold-400"
+                className="bg-stone-50 dark:bg-neutral-900 border border-stone-300 dark:border-neutral-800 rounded-xl px-3 py-2 text-xs text-stone-800 dark:text-neutral-200 focus:outline-none focus:border-gold-400 cursor-pointer"
               >
                 <option value="all">All Precious Metals</option>
                 <option value="platinum">Platinum 950</option>
@@ -133,13 +133,13 @@ export const ShopCatalog: React.FC<ShopCatalogProps> = ({
 
             {/* Sort Options */}
             <div className="flex items-center gap-2">
-              <span className="text-[11px] text-neutral-400 uppercase tracking-wider font-mono">
+              <span className="text-[11px] text-stone-600 dark:text-neutral-400 uppercase tracking-wider font-mono">
                 Sort:
               </span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-gold-400"
+                className="bg-stone-50 dark:bg-neutral-900 border border-stone-300 dark:border-neutral-800 rounded-xl px-3 py-2 text-xs text-stone-800 dark:text-neutral-200 focus:outline-none focus:border-gold-400 cursor-pointer"
               >
                 <option value="featured">Featured Curations</option>
                 <option value="price-desc">Price: High to Low</option>
@@ -151,12 +151,12 @@ export const ShopCatalog: React.FC<ShopCatalogProps> = ({
         </div>
 
         {/* Counter readout */}
-        <div className="flex items-center justify-between text-xs text-neutral-400 font-mono -mt-2">
+        <div className="flex items-center justify-between text-xs text-stone-600 dark:text-neutral-400 font-mono -mt-2">
           <span>
-            Displaying <strong className="text-gold-300">{filteredItems.length}</strong> creations
+            Displaying <strong className="text-gold-700 dark:text-gold-300">{filteredItems.length}</strong> creations
           </span>
-          <span className="text-[11px] text-neutral-500">
-            Hover any item to trigger the instant Macro Loupe
+          <span className="text-[11px] text-stone-500 dark:text-neutral-500">
+            Click any item for details & 58-Facet Loupe
           </span>
         </div>
       </div>

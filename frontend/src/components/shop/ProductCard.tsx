@@ -22,7 +22,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div
       onClick={() => onQuickView(product)}
-      className="group relative flex flex-col rounded-2xl border border-gold-500/20 bg-neutral-950/70 hover:border-gold-400/50 hover:shadow-[0_12px_40px_rgba(197,160,89,0.15)] transition-all duration-500 overflow-hidden cursor-pointer"
+      className="group relative flex flex-col rounded-2xl border border-gold-500/25 bg-white/90 dark:bg-neutral-950/70 hover:border-gold-500 hover:shadow-[0_12px_40px_rgba(197,160,89,0.18)] dark:hover:shadow-[0_12px_40px_rgba(197,160,89,0.15)] transition-all duration-500 overflow-hidden cursor-pointer shadow-md dark:shadow-none"
     >
       {/* Top Media Frame */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-900 select-none">
@@ -92,16 +92,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       {/* Product Information Body */}
       <div className="flex flex-col p-5 flex-1 justify-between gap-3">
         <div>
-          <div className="flex items-center justify-between text-[11px] text-neutral-400 font-mono tracking-widest uppercase">
+          <div className="flex items-center justify-between text-[11px] text-stone-500 dark:text-neutral-400 font-mono tracking-widest uppercase">
             <span>{product.collection}</span>
-            <span className="text-gold-400/90">{product.cutGrade}</span>
+            <span className="text-gold-700 dark:text-gold-400/90 font-medium">{product.cutGrade}</span>
           </div>
 
-          <h3 className="font-serif text-lg font-medium text-gold-100 mt-1 line-clamp-1 group-hover:text-gold-300 transition-colors">
+          <h3 className="font-serif text-lg font-medium text-stone-900 dark:text-gold-100 mt-1 line-clamp-1 group-hover:text-gold-600 dark:group-hover:text-gold-300 transition-colors">
             {product.name}
           </h3>
 
-          <p className="text-xs text-neutral-400 font-sans mt-1 line-clamp-2 leading-relaxed">
+          <p className="text-xs text-stone-600 dark:text-neutral-400 font-sans mt-1 line-clamp-2 leading-relaxed">
             {product.description}
           </p>
         </div>
@@ -126,26 +126,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 title={metal}
                 className={`w-4 h-4 rounded-full border transition-all ${
                   isSelected
-                    ? "ring-2 ring-gold-400 ring-offset-2 ring-offset-black scale-110"
-                    : "opacity-60 hover:opacity-100 border-neutral-600"
+                    ? "ring-2 ring-gold-500 ring-offset-2 ring-offset-white dark:ring-offset-black scale-110"
+                    : "opacity-60 hover:opacity-100 border-neutral-400 dark:border-neutral-600"
                 }`}
                 style={{ backgroundColor: colorMap[metal] }}
               />
             );
           })}
-          <span className="text-[10px] text-neutral-500 font-sans ml-1">
+          <span className="text-[10px] text-stone-500 dark:text-neutral-500 font-sans ml-1">
             {selectedMetal}
           </span>
         </div>
 
         {/* Price & View Details Action */}
-        <div className="flex items-center justify-between pt-2 border-t border-neutral-900">
+        <div className="flex items-center justify-between pt-2 border-t border-stone-200 dark:border-neutral-900">
           <div>
-            <div className="font-serif text-xl font-semibold text-gold-200">
+            <div className="font-serif text-xl font-semibold text-gold-800 dark:text-gold-200">
               ${product.price.toLocaleString()}
             </div>
             {product.originalPrice && (
-              <span className="text-xs text-neutral-500 line-through">
+              <span className="text-xs text-stone-400 dark:text-neutral-500 line-through">
                 ${product.originalPrice.toLocaleString()}
               </span>
             )}

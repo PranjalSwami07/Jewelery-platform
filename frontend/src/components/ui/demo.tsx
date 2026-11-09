@@ -79,49 +79,49 @@ export default function TiltedGridHeroDemo() {
         setStreamProgress(percent);
         setIsComplete(complete);
       }}
-      className="h-[580px] xs:h-[620px] sm:h-[730px] w-full rounded-2xl sm:rounded-3xl border border-gold-500/30 bg-[#070707] shadow-[0_25px_80px_rgba(0,0,0,0.9)]"
+      className="h-[580px] xs:h-[620px] sm:h-[730px] w-full rounded-2xl sm:rounded-3xl border border-gold-500/30 bg-[#FAF7F2] dark:bg-[#070707] shadow-[0_25px_80px_rgba(197,160,89,0.12)] dark:shadow-[0_25px_80px_rgba(0,0,0,0.9)]"
     >
       <div className="relative z-10 flex h-full flex-col justify-between py-6 px-3.5 sm:py-10 sm:px-12 text-center pointer-events-none select-none">
         {/* ── TOP SECTION: Letters positioned cleanly ABOVE the moving images ── */}
         <div className="flex flex-col items-center max-w-3xl mx-auto space-y-2.5 sm:space-y-3.5 pt-1 sm:pt-2">
           {/* Atelier Badge */}
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-gold-500/40 bg-gold-950/70 backdrop-blur-md text-gold-300 text-[9px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.28em] shadow-lg">
-            <Gem className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gold-400 shrink-0" />
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-gold-500/40 bg-gold-500/10 dark:bg-gold-950/70 backdrop-blur-md text-gold-800 dark:text-gold-300 text-[9px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.28em] shadow-lg font-medium">
+            <Gem className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gold-600 dark:text-gold-400 shrink-0" />
             <span className="truncate">Place Vendôme 3D Curved Spectrum</span>
           </div>
 
           {/* Main Title: High contrast gold typography */}
-          <h2 className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-serif text-gold-100 tracking-tight leading-[1.12] drop-shadow-xl">
+          <h2 className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-serif text-stone-900 dark:text-gold-100 tracking-tight leading-[1.12] drop-shadow-md dark:drop-shadow-xl">
             Every creation,
             <br />
-            <span className="italic font-light bg-gradient-to-r from-gold-200 via-gold-400 to-gold-200 bg-clip-text text-transparent">
+            <span className="italic font-light bg-gradient-to-r from-gold-600 via-gold-500 to-gold-700 dark:from-gold-200 dark:via-gold-400 dark:to-gold-200 bg-clip-text text-transparent">
               brought into focus.
             </span>
           </h2>
 
           {/* Subtitle Description */}
-          <p className="text-[11px] sm:text-xs md:text-sm text-neutral-300 max-w-xl mx-auto font-sans leading-relaxed tracking-wide px-2">
+          <p className="text-[11px] sm:text-xs md:text-sm text-stone-700 dark:text-neutral-300 max-w-xl mx-auto font-sans leading-relaxed tracking-wide px-2 font-medium dark:font-normal">
             Swipe left or scroll down to stream creations around an architectural cylinder. Once all pieces are presented, scrolling glides seamlessly into the boutique catalog.
           </p>
 
           {/* Stream Progress Bar & Counter Strip */}
           <div className="flex items-center gap-2.5 sm:gap-3 pt-1 sm:pt-2">
-            <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-gold-400 font-semibold">
+            <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-gold-700 dark:text-gold-400 font-semibold">
               {isComplete ? (
-                <span className="text-gold-300 inline-flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-gold-400" /> All Explored
+                <span className="text-gold-800 dark:text-gold-300 inline-flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-gold-600 dark:text-gold-400" /> All Explored
                 </span>
               ) : (
                 "Swipe / Scroll"
               )}
             </span>
-            <div className="w-24 xs:w-28 sm:w-36 h-1.5 bg-neutral-900 border border-gold-500/20 rounded-full overflow-hidden">
+            <div className="w-24 xs:w-28 sm:w-36 h-1.5 bg-stone-200 dark:bg-neutral-900 border border-gold-500/20 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-gold-500 to-gold-300 rounded-full transition-all duration-150"
+                className="h-full bg-gradient-to-r from-gold-500 to-gold-400 rounded-full transition-all duration-150"
                 style={{ width: `${Math.min(100, streamProgress)}%` }}
               />
             </div>
-            <span className="text-[10px] sm:text-[11px] font-mono text-neutral-400">
+            <span className="text-[10px] sm:text-[11px] font-mono text-stone-600 dark:text-neutral-400">
               {activeImageIndex + 1} / {JEWELRY_STREAM_IMAGES.length}
             </span>
           </div>
@@ -138,9 +138,9 @@ export default function TiltedGridHeroDemo() {
               <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
             </button>
           ) : (
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-black/70 border border-gold-500/25 backdrop-blur-md text-[10px] sm:text-[11px] font-mono text-gold-300/90 shadow-md">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/85 dark:bg-black/70 border border-gold-500/30 backdrop-blur-md text-[10px] sm:text-[11px] font-mono text-gold-900 dark:text-gold-300/90 shadow-md">
               <span>Swipe left or scroll down to glide</span>
-              <ArrowDown className="w-3 h-3 text-gold-400" />
+              <ArrowDown className="w-3 h-3 text-gold-600 dark:text-gold-400" />
             </div>
           )}
         </div>
