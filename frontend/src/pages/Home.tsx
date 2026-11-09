@@ -12,11 +12,14 @@ import TiltedGridHeroDemo from "@/components/ui/demo";
 import { JEWELRY_CATALOG } from "@/data/jewelryData";
 import { ShopCatalog } from "@/components/shop/ShopCatalog";
 import { ProductQuickViewModal } from "@/components/shop/ProductQuickViewModal";
+import { AppointmentModal } from "@/components/common/AppointmentModal";
 import { JewelryItem } from "@/types/jewelry";
 
 export const Home: React.FC = () => {
   const [isConciergeOpen, setIsConciergeOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<JewelryItem | null>(null);
+  const [isAppointmentOpen, setIsAppointmentOpen] = useState(false);
+  const [appointmentCity, setAppointmentCity] = useState("Mumbai");
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -148,12 +151,27 @@ export const Home: React.FC = () => {
         product={quickViewProduct}
         isOpen={Boolean(quickViewProduct)}
         onClose={() => setQuickViewProduct(null)}
+        onBookViewing={(product) => {
+          setAppointmentCity("Mumbai");
+          setIsAppointmentOpen(true);
+        }}
       />
 
       {/* ── 8. AI CONCIERGE DRAWER ───────────────────────────────────── */}
       <AIChatDrawer
         isOpen={isConciergeOpen}
         onClose={() => setIsConciergeOpen(false)}
+        onOpenAppointment={(city) => {
+          if (city) setAppointmentCity(city);
+          setIsAppointmentOpen(true);
+        }}
+      />
+
+      {/* ── 9. GLOBAL SALON APPOINTMENT MODAL ────────────────────────── */}
+      <AppointmentModal
+        isOpen={isAppointmentOpen}
+        onClose={() => setIsAppointmentOpen(false)}
+        preselectedCity={appointmentCity}
       />
 
       {/* ── 10. LUXURY FOOTER ────────────────────────────────────────── */}

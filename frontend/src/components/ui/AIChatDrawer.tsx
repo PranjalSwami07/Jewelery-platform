@@ -1,47 +1,62 @@
-import React, { useState } from "react";
-import { X, Send, Sparkles, Gem, Clock, ShieldCheck, User } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { X, Send, Sparkles, Gem, Clock, ShieldCheck, User, ArrowRight, Calendar } from "lucide-react";
 import { API_BASE_URL } from "@/lib/api";
+import { generateSmartConciergeReply, ChatMessage } from "@/lib/conciergeAI";
 
 interface AIChatDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenAppointment?: (city?: string) => void;
 }
 
-interface Message {
-  role: "user" | "concierge";
-  content: string;
-  timestamp: string;
-}
-
-export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
-  const [messages, setMessages] = useState<Message[]>([
+export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
+  isOpen,
+  onClose,
+  onOpenAppointment,
+}) => {
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: "concierge",
       content:
-        "Namaste. I am your Maison d'Élégance Private Concierge. Whether you seek guidance on GIA diamond grading, rare Kashmir sapphire acquisitions, or arranging a private salon viewing in Mumbai, New Delhi, or Jaipur, how may I assist you today?",
+        "Namaste. I am your Maison d'Élégance Private Concierge & Senior Gemological Advisor. Whether you seek guidance on GIA diamond grading, rare Kashmir sapphire acquisitions, or arranging a private salon viewing in Mumbai, New Delhi, or Jaipur, how may I assist you today?",
       timestamp: "Just now",
     },
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-
-  const predefinedPrompts = [
+  const [suggestedPrompts, setSuggestedPrompts] = useState<string[]>([
     "What is the 4Cs profile of your Étoile Solitaire?",
+    "Book a private salon suite in Mumbai",
     "How does bespoke private commission work?",
-    "Schedule a private salon appointment in Mumbai or Delhi",
-  ];
+    "Guide me on selecting an engagement ring",
+  ]);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(scrollToBottom, 100);
+    }
+  }, [isOpen, messages, isTyping]);
 
   const handleSend = async (textToSend?: string) => {
     const text = textToSend || inputValue;
     if (!text.trim()) return;
 
-    const userMessage: Message = {
+    const timeString = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    const userMessage: ChatMessage = {
       role: "user",
       content: text,
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      timestamp: timeString,
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    const nextHistory = [...messages, userMessage];
+    setMessages(nextHistory);
     if (!textToSend) setInputValue("");
     setIsTyping(true);
 
@@ -54,7 +69,11 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
 
       if (response.ok) {
         const data = await response.json();
-        if (data.reply) {
+        // If the backend has a rich LLM reply that is not a generic fallback template
+        if (
+          data.reply &&
+          !data.reply.includes('Thank you for your inquiry regarding "')
+        ) {
           setMessages((prev) => [
             ...prev,
             {
@@ -68,38 +87,44 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
         }
       }
     } catch {
-      // Backend server offline or in standalone mode — fallback to local luxury advisor logic
+      // Backend unavailable or standalone mode
     }
 
-    // Graceful luxury client concierge fallback
+    // High-Intelligence Concierge Engine (provides context-aware, personalized, human-level answers)
     setTimeout(() => {
-      let reply = "Our Haute Joaillerie atelier is at your full disposal.";
-      if (text.toLowerCase().includes("solitaire") || text.toLowerCase().includes("4c")) {
-        reply = "The Étoile Solitaire features only Type IIa diamonds—the top 1-2% of all gem-quality diamonds in the world, certified Flawless to VVS1 with triple-excellent cut parameters by GIA.";
-      } else if (text.toLowerCase().includes("bespoke") || text.toLowerCase().includes("commission")) {
-        reply = "Our bespoke commission process begins with a one-on-one consultation with our Master Jeweler. We sketch custom gouache renderings, source unheated gemstones globally, and craft the final creation over 8 to 12 weeks.";
-      } else if (
-        text.toLowerCase().includes("appointment") ||
-        text.toLowerCase().includes("mumbai") ||
-        text.toLowerCase().includes("delhi") ||
-        text.toLowerCase().includes("jaipur") ||
-        text.toLowerCase().includes("salon")
-      ) {
-        reply = "I would be honored to reserve a private salon suite for you at The Taj Mahal Palace, Mumbai or in New Delhi. Our private client advisor will contact your concierge with champagne hospitality.";
-      } else {
-        reply = `Thank you for your inquiry regarding "${text}". Our senior gemologist and private salon director will prepare a bespoke portfolio tailored to your exact specifications.`;
-      }
+      const intelligentAnswer = generateSmartConciergeReply(text, nextHistory);
 
       setMessages((prev) => [
         ...prev,
         {
           role: "concierge",
-          content: reply,
+          content: intelligentAnswer.reply,
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          action: intelligentAnswer.action,
         },
       ]);
+
+      if (intelligentAnswer.suggestedFollowUps && intelligentAnswer.suggestedFollowUps.length > 0) {
+        setSuggestedPrompts(intelligentAnswer.suggestedFollowUps);
+      }
+
       setIsTyping(false);
-    }, 700);
+    }, 450);
+  };
+
+  const handleActionClick = (action: NonNullable<ChatMessage["action"]>) => {
+    if (action.type === "appointment") {
+      onClose();
+      onOpenAppointment?.(action.city || "Mumbai");
+    } else if (action.type === "catalog") {
+      onClose();
+      const el = document.getElementById("boutique");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else if (action.type === "loupe") {
+      onClose();
+      const el = document.getElementById("magnifier");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   if (!isOpen) return null;
@@ -131,7 +156,8 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 sm:p-2 text-neutral-400 hover:text-gold-200 transition-colors"
+            className="p-1.5 sm:p-2 text-neutral-400 hover:text-gold-200 transition-colors cursor-pointer"
+            aria-label="Close Concierge"
           >
             <X className="w-5 h-5" />
           </button>
@@ -153,7 +179,19 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
                     : "bg-neutral-900/90 text-neutral-200 border border-neutral-800 rounded-bl-none shadow-md"
                 }`}
               >
-                {m.content}
+                <div className="whitespace-pre-line">{m.content}</div>
+
+                {/* Optional Interactive Action Pill */}
+                {m.action && (
+                  <button
+                    onClick={() => handleActionClick(m.action!)}
+                    className="mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500 hover:bg-gold-400 text-black text-[11px] font-mono font-bold uppercase tracking-wider shadow-lg transition-all active:scale-95 cursor-pointer"
+                  >
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>{m.action.label}</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
+                )}
               </div>
               <span className="text-[10px] text-neutral-500 mt-1 font-mono px-1">
                 {m.timestamp}
@@ -167,15 +205,17 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
               <span>Consulting atelier gemologists...</span>
             </div>
           )}
+
+          <div ref={messagesEndRef} />
         </div>
 
-        {/* Quick Suggestion Chips */}
+        {/* Dynamic Contextual Suggestion Chips */}
         <div className="px-4 sm:px-6 py-2 border-t border-gold-500/10 flex flex-wrap gap-1.5 sm:gap-2">
-          {predefinedPrompts.map((prompt, i) => (
+          {suggestedPrompts.map((prompt, i) => (
             <button
               key={i}
               onClick={() => handleSend(prompt)}
-              className="text-[10px] sm:text-[11px] text-gold-300/85 hover:text-gold-100 bg-black/40 hover:bg-gold-950/40 border border-gold-500/25 px-2.5 py-1 rounded-full transition-colors text-left"
+              className="text-[10px] sm:text-[11px] text-gold-300/85 hover:text-gold-100 bg-black/40 hover:bg-gold-950/40 border border-gold-500/25 px-2.5 py-1 rounded-full transition-colors text-left cursor-pointer active:scale-95"
             >
               {prompt}
             </button>
@@ -195,12 +235,14 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask about carats, certification, salons..."
+              placeholder="Ask about carats, rings, salons, bespoke..."
               className="flex-1 bg-neutral-900 border border-gold-500/30 rounded-full px-4 py-2.5 text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:border-gold-400 transition-colors"
             />
             <button
               type="submit"
-              className="p-2.5 rounded-full bg-gold-500 hover:bg-gold-400 text-neutral-950 transition-colors flex items-center justify-center shadow-lg"
+              disabled={!inputValue.trim()}
+              className="p-2.5 rounded-full bg-gold-500 hover:bg-gold-400 disabled:opacity-40 text-neutral-950 transition-colors flex items-center justify-center shadow-lg cursor-pointer"
+              aria-label="Send Message"
             >
               <Send className="w-4 h-4" />
             </button>
